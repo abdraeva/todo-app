@@ -35,8 +35,7 @@ const isUser = !!users.find(item => item.email === emailInput.value)
       )
 
 
-      localStorage.setItem("isAuth", "true")
-      window.open("../index.html", "_self")
+      window.open("../auth.html", "_self")
     }
 
     emailInput.value = ""
