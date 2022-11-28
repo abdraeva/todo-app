@@ -46,6 +46,27 @@
 //  const name = localStorage.getItem("name")
 
 //  console.log(name)
+// window.addEventListener("load", () =>{
+//   if(localStorage.getItem("isAuth") === "true"){
+//     window.open("../main.html", "_self")
+//   }
+// })
+window.addEventListener("load", () =>{
+  if(localStorage.getItem("isAuth") === "false"){
+    window.open("../main.html", "_self")
+  }
+})
+
+
+const mainInfo = document.querySelector(".mainInfo")
+
+mainInfo.addEventListener("click", () => {
+  localStorage.setItem("isAuth", "true")
+  window.open("../main.html", "_self")
+}
+)
+
+
 
 
 window.addEventListener("load", () =>{
@@ -62,6 +83,7 @@ singOut.addEventListener("click", () =>{
   window.open("../register.html", "_self")
   
 })
+
 
 
 const title = document.querySelector(".title")
@@ -109,6 +131,7 @@ addTodo.addEventListener("click", (event) =>{
     ]
    ))
    window.location.reload()
+   window.open("../index.html", "_self")
 
   //  title.value = ""
   //  description.value = ""
@@ -117,15 +140,13 @@ addTodo.addEventListener("click", (event) =>{
   }else{
     error.innerHTML = "Все поля должны быть заполнены!"
   }
-
-
 })
 
 
 
 
 function card(base) {
-  const template = base.map(({title, description, image}) => {
+  const template = base.map(({title, description, image, id}) => {
     return `
 
       <div class="boxes">
@@ -134,9 +155,51 @@ function card(base) {
 
         <p>${description}</p>
 
+        <div class="btn_inline">
+        <button onclick="deleteTodo(${id})">
+          Delete
+        </button>
+        <button onclick="editTodo(${id})">
+          Edit
+        </button>
+        </div>
       </div>
     `
   }).join(" ")
 
   row.innerHTML = template
+}
+
+function deleteTodo(id) {
+  const todo = JSON.parse(localStorage.getItem("todo"))
+  const filtered = todo.filter(item => item.id !== id)
+
+  localStorage.setItem("todo", JSON.stringify(filtered))
+
+  window.location.reload()
+
+  
+}
+
+
+function editTodo(id) {
+
+  const todo = JSON.parse(localStorage.getItem("todo"))
+
+  const changes = todo.map(item =>{
+    if(item.id === id){
+      return {
+        title:prompt("Title", item.title),
+        description:prompt("description", item.description),
+        image:prompt("Image", item.image)
+  
+      }
+    }else {
+      return item
+    }
+  })
+
+  localStorage.setItem("todo", JSON.stringify(changes))
+  window.location.reload()
+
 }

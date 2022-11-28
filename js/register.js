@@ -34,7 +34,6 @@ const isUser = !!users.find(item => item.email === emailInput.value)
       )
       )
 
-
       window.open("../auth.html", "_self")
     }
 
